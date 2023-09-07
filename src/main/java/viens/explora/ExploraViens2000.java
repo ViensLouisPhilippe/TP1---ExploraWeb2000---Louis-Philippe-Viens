@@ -1,5 +1,7 @@
 package viens.explora;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -20,6 +22,14 @@ public class ExploraViens2000 {
         //on confirme si l'URL est valid
         if(!isURlValid(args[0]))
             System.out.println("Il n'y a pas de page correspondante à l'URL : " + args[0] + "\nMerci de fournir une URL correspondant à une page");
+
+        //On valide que la liste de mots clés ne contient pas de répétitions.
+        if (!isListValid(args[1]))
+        {
+            System.out.println("Mots clés fournis incorrects " + args[1]);
+            System.out.println("Merci de ne pas avoir de répétitions dans les mots clés : ");
+        }
+
     }
     public static boolean isURLTextValid(String url){
         //on test si l'URL est bien formée
@@ -37,14 +47,37 @@ public class ExploraViens2000 {
 
         /* Try creating a valid URL */
         try {
-            new URL(url).toURI();
+            Document doc = Jsoup.connect(url).get();
             return true;
         }
 
-        // If there was an Exception
-        // while creating URL object
         catch (Exception e) {
             return false;
         }
     }
+    public  static boolean isListValid(String list){
+        try {
+            String[] Tab = list.split(" ");
+
+            return isTabValid(Tab);
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+    public  static boolean isTabValid(String[] tab)
+    {
+        for (int i = 0; i<tab.length; i++)
+        {
+            for (int a = tab.length; a>=0; a--) {
+                if (tab[i].contains(tab[a]) && i != a)
+                    return false;
+
+            }
+
+        }
+        return true;
+    }
+
 }
