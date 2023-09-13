@@ -1,5 +1,6 @@
 package viens.explora;
 
+import javafx.scene.control.Tab;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import java.net.MalformedURLException;
@@ -29,7 +30,7 @@ public class ExploraViens2000 {
             System.out.println("Mots clés fournis incorrects " + args[1]);
             System.out.println("Merci de ne pas avoir de répétitions dans les mots clés : ");
         }
-
+        
     }
     public static boolean isURLTextValid(String url){
         //on test si l'URL est bien formée
@@ -56,6 +57,8 @@ public class ExploraViens2000 {
         }
     }
     public  static boolean isListValid(String list){
+
+        //On vérifie qu'il n'y est pas de répétitions de mots dans la liste de mots
         try {
             String[] Tab = list.split(" ");
 
@@ -68,14 +71,15 @@ public class ExploraViens2000 {
     }
     public  static boolean isTabValid(String[] tab)
     {
-        for (int i = 0; i<tab.length; i++)
+        for (int a = 0; a <tab.length; a++)
         {
-            for (int a = tab.length; a>=0; a--) {
-                if (tab[i].contains(tab[a]) && i != a)
+            for (int b= 0; b <tab.length; b++)
+            {
+                if (tab[a].equals(tab[b]) && a != b)
+                {
                     return false;
-
+                }
             }
-
         }
         return true;
     }
