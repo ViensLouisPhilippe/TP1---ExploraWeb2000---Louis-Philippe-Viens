@@ -112,21 +112,47 @@ public class ExploraViens2000 {
         try {
             Document doc = Jsoup.connect(url).get();
             Elements links = doc.select("a");
-            if (!links.isEmpty()) {
-                // Extraire le premier lien trouvé
-                Element firstLink = links.first();
 
-                // Récupérer l'URL du premier lien
-                String firstLinkUrl = firstLink.attr("abs:href");
-                Document docFirstLink = Jsoup.connect(firstLinkUrl).get();
+                if (!links.isEmpty()) {
+                    while (isURLTextValid(links.first().attr("abs:href")))
+                     {
+                        // Extraire le premier lien trouvé
+                        Element firstLink = links.get(0);
 
-                // Afficher l'URL du premier lien
-                System.out.println("Titre : " + docFirstLink.title() + "          URL : " + firstLinkUrl);
-                ExplorationDeLien(firstLinkUrl);
-            } else {
-                System.out.println("L'exploration s'est arrêtée, la page " + url + " ne contient aucun lien valide.");
+                        // Récupérer l'URL du premier lien
+                        String firstLinkUrl = firstLink.attr("abs:href");
+                        if (isURLTextValid(firstLinkUrl)) {
+                            // Afficher l'URL du premier lien
+                            Document docFirstLink = Jsoup.connect(firstLinkUrl).get();
+                            System.out.println("Titre : " + docFirstLink.title() + "          URL : " + firstLinkUrl);
+                            ExplorationDeLien(firstLinkUrl);
+                        } else
+                        {
+                            System.out.println("URL ignorée : " + firstLinkUrl);
+                        }
+                    }
+                    System.out.println("URL ignorée : " + links.first().attr("abs:href"));
+                    // Extraire le premier lien trouvé
+                    Element NextLink = links.get(1);
 
-            }
+                    // Récupérer l'URL du premier lien
+                    String NextLinkUrl = NextLink.attr("abs:href");
+                    if (isURLTextValid(NextLinkUrl)) {
+                        // Afficher l'URL du premier lien
+                        Document docNextLink = Jsoup.connect(NextLinkUrl).get();
+                        System.out.println("Titre : " + docNextLink.title() + "          URL : " + NextLinkUrl);
+                        ExplorationDeLien(NextLinkUrl);
+                    } else
+                    {
+                        System.out.println("URL ignorée : " + NextLinkUrl);
+                    }
+
+                } else {
+                    System.out.println("L'exploration s'est arrêtée, la page " + url + " ne contient aucun lien valide.");
+
+                }
+
+
         } catch (Exception e) {
 
         }
