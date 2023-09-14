@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import sun.awt.image.ImageWatched;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -46,8 +47,8 @@ public class ExploraViens2000 {
             int nbrLiens = links.size();
             System.out.println("Titre : " + titre + "          URL : " + args[0] + " Liens " + nbrLiens);
 
+            ExplorationDeLien(args[0]);
 
-            System.out.println(ExplorationDeLien(links, args[0]));
 
 
         } catch (Exception e) {
@@ -107,27 +108,27 @@ public class ExploraViens2000 {
     //Fin Region TODO 1
 
     //Début Region TODO 2
-    public static String ExplorationDeLien(Elements link, String url) {
-        String Reponse = " ";
+    public static void  ExplorationDeLien(String url) {
         try {
-            if (!link.isEmpty()) {
-                for (int i = 0; i < link.size(); i++) {
-                    // Récupérer l'URL du premier lien
-                    String lien = link.get(i).attr("abs:href");
-                    Document docFirstLink = Jsoup.connect(lien).get();
+            Document doc = Jsoup.connect(url).get();
+            Elements links = doc.select("a");
+            if (!links.isEmpty()) {
+                // Extraire le premier lien trouvé
+                Element firstLink = links.first();
 
-                    // Afficher l'URL du premier lien
-                    Reponse = lien;
-                    System.out.println("Titre : " + docFirstLink.title() + "          URL : " + lien);
+                // Récupérer l'URL du premier lien
+                String firstLinkUrl = firstLink.attr("abs:href");
+                Document docFirstLink = Jsoup.connect(firstLinkUrl).get();
 
-                }
-                return Reponse;
+                // Afficher l'URL du premier lien
+                System.out.println("Titre : " + docFirstLink.title() + "          URL : " + firstLinkUrl);
+                ExplorationDeLien(firstLinkUrl);
             } else {
-                Reponse = "L'exploration s'est arrêtée, la page " + url + " ne contient aucun lien valide.";
-                return Reponse;
+                System.out.println("L'exploration s'est arrêtée, la page " + url + " ne contient aucun lien valide.");
+
             }
         } catch (Exception e) {
-            return "Erreur";
+
         }
 
     }
