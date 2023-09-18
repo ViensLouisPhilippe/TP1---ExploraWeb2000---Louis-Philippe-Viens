@@ -125,17 +125,22 @@ public class ExploraViens2000 {
                         if (isURLTextValid(firstLinkUrl)) {
                             // Afficher l'URL du premier lien
                             Document docFirstLink = Jsoup.connect(firstLinkUrl).get();
+                            //Compter le nombre de lien dans le premier url
+                            Elements nbrlien = docFirstLink.select("a");
                             //TODO 4
                             // Url avec motclé?
                             if (MotCleDansUrl(motCle, firstLinkUrl))
                             {
-                                ExplorationDeLien(firstLinkUrl, motCle);
+                                //Chercher le prochain url
+                                Element next = links.get(1);
+                                ExplorationDeLien(next.attr("abs:href"), motCle);
                             }
                             else
                             {
-                                System.out.println("Titre : " + docFirstLink.title() + "          URL : " + firstLinkUrl);
+                                System.out.println("Titre : " + docFirstLink.title() + "          URL : " + firstLinkUrl + " Liens " + nbrlien.size());
                                 ExplorationDeLien(firstLinkUrl, motCle);
                             }
+                            //Fin TODO 4
                         } else
                         {
                             System.out.println("URL ignorée : " + firstLinkUrl);
