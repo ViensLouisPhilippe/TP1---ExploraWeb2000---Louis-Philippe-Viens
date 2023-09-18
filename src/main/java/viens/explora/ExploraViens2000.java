@@ -118,27 +118,36 @@ public class ExploraViens2000 {
                     while (isURLTextValid(links.first().attr("abs:href")))
                      {
                         // Extraire le premier lien trouvé
-                        Element firstLink = links.get(0);
-
+                        Element firstLink = links.first();
+                        //Chercher le deuxieme url
+                         Element deuxiemeLink = links.get(1);
                         // Récupérer l'URL du premier lien
-                        String firstLinkUrl = firstLink.attr("abs:href");
+                        String firstLinkUrl = firstLink.attr("abs:href").replaceAll("#","");
                         if (isURLTextValid(firstLinkUrl)) {
                             // Afficher l'URL du premier lien
                             Document docFirstLink = Jsoup.connect(firstLinkUrl).get();
                             //Compter le nombre de lien dans le premier url
                             Elements nbrlien = docFirstLink.select("a");
-                            //TODO 4
+                            //TODO 4 Exploration
                             // Url avec motclé?
                             if (MotCleDansUrl(motCle, firstLinkUrl))
                             {
-                                //Chercher le prochain url
-                                Element next = links.get(1);
-                                ExplorationDeLien(next.attr("abs:href"), motCle);
+                                ExplorationDeLien(deuxiemeLink.attr("abs:href"), motCle);
+                                break;
                             }
                             else
                             {
                                 System.out.println("Titre : " + docFirstLink.title() + "          URL : " + firstLinkUrl + " Liens " + nbrlien.size());
-                                ExplorationDeLien(firstLinkUrl, motCle);
+                                //TODO 5 Exploration
+                                if(firstLinkUrl.equals(url))
+                                {
+                                    ExplorationDeLien(deuxiemeLink.attr("abs:href"), motCle);
+                                    break;
+                                }
+                                else{
+                                    ExplorationDeLien(firstLinkUrl, motCle);
+                                    break;
+                                }
                             }
                             //Fin TODO 4
                         } else
@@ -147,23 +156,23 @@ public class ExploraViens2000 {
                         }
 
                     }
-                    System.out.println("URL ignorée : " + links.first().attr("abs:href"));
+                    //System.out.println("URL ignorée : " + links.first().attr("abs:href"));
                     // Extraire le Deuxième lien trouvé
-                    Element NextLink = links.get(1);
+                    //Element NextLink = links.get(1);
 
                     // Récupérer l'URL du premier lien
-                    String NextLinkUrl = NextLink.attr("abs:href");
-                    if (isURLTextValid(NextLinkUrl)) {
+                    //String NextLinkUrl = NextLink.attr("abs:href");
+                    //if (isURLTextValid(NextLinkUrl)) {
                         // Afficher l'URL du premier lien
-                        Document docNextLink = Jsoup.connect(NextLinkUrl).get();
-                        System.out.println("Titre : " + docNextLink.title() + "          URL : " + NextLinkUrl);
-                        ExplorationDeLien(NextLinkUrl, motCle);
-                    } else
-                    {
-                        System.out.println("URL ignorée : " + NextLinkUrl);
-                    }
-
-                } else {
+                    //    Document docNextLink = Jsoup.connect(NextLinkUrl).get();
+                    //    System.out.println("Titre : " + docNextLink.title() + "          URL : " + NextLinkUrl);
+                    //    ExplorationDeLien(NextLinkUrl, motCle);
+                    //} else
+                    //{
+                    //    System.out.println("URL ignorée : " + NextLinkUrl);
+                    //}
+                }
+                else {
                     System.out.println("L'exploration s'est arrêtée, la page " + url + " ne contient aucun lien valide.");
 
                 }
