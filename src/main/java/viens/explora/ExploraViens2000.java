@@ -110,7 +110,7 @@ public class ExploraViens2000 {
     //Début Region TODO 2
     public static void  ExplorationDeLien(String url, String motCle) {
         try {
-            Document doc = Jsoup.connect(url).get();
+            Document doc = Jsoup.connect(url.replaceAll("#","")).get();
             Elements links = doc.select("a");
 
                 if (!links.isEmpty()) {
@@ -122,7 +122,7 @@ public class ExploraViens2000 {
                         //Chercher le deuxieme url
                          Element deuxiemeLink = links.get(1);
                         // Récupérer l'URL du premier lien
-                        String firstLinkUrl = firstLink.attr("abs:href").replaceAll("#","");
+                        String firstLinkUrl = firstLink.attr("abs:href");
                         if (isURLTextValid(firstLinkUrl)) {
                             // Afficher l'URL du premier lien
                             Document docFirstLink = Jsoup.connect(firstLinkUrl).get();
@@ -137,14 +137,18 @@ public class ExploraViens2000 {
                             }
                             else
                             {
-                                System.out.println("Titre : " + docFirstLink.title() + "          URL : " + firstLinkUrl + " Liens " + nbrlien.size());
+
                                 //TODO 5 Exploration
                                 if(firstLinkUrl.equals(url))
                                 {
+                                    String secondLinkUrl = deuxiemeLink.attr("abs:href");
+                                    Document docSecondLink = Jsoup.connect(secondLinkUrl).get();
+                                    System.out.println("Titre : " + docSecondLink.title() + "          URL : " + secondLinkUrl + " Liens " + docSecondLink.select("a").size());
                                     ExplorationDeLien(deuxiemeLink.attr("abs:href"), motCle);
                                     break;
                                 }
                                 else{
+                                    System.out.println("Titre : " + docFirstLink.title() + "          URL : " + firstLinkUrl.replaceAll("#","") + " Liens " + nbrlien.size());
                                     ExplorationDeLien(firstLinkUrl, motCle);
                                     break;
                                 }
@@ -156,21 +160,6 @@ public class ExploraViens2000 {
                         }
 
                     }
-                    //System.out.println("URL ignorée : " + links.first().attr("abs:href"));
-                    // Extraire le Deuxième lien trouvé
-                    //Element NextLink = links.get(1);
-
-                    // Récupérer l'URL du premier lien
-                    //String NextLinkUrl = NextLink.attr("abs:href");
-                    //if (isURLTextValid(NextLinkUrl)) {
-                        // Afficher l'URL du premier lien
-                    //    Document docNextLink = Jsoup.connect(NextLinkUrl).get();
-                    //    System.out.println("Titre : " + docNextLink.title() + "          URL : " + NextLinkUrl);
-                    //    ExplorationDeLien(NextLinkUrl, motCle);
-                    //} else
-                    //{
-                    //    System.out.println("URL ignorée : " + NextLinkUrl);
-                    //}
                 }
                 else {
                     System.out.println("L'exploration s'est arrêtée, la page " + url + " ne contient aucun lien valide.");
