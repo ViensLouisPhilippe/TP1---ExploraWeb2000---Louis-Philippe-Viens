@@ -123,7 +123,7 @@ public class ExploraViens2000 {
                         //Chercher le deuxieme url
                          Element deuxiemeLink = links.get(1);
                         // Récupérer l'URL du premier lien
-                        String firstLinkUrl = firstLink.attr("abs:href");
+                        String firstLinkUrl = firstLink.attr("abs:href").replaceAll("#","");
                         if (isURLTextValid(firstLinkUrl)) {
                             // Afficher l'URL du premier lien
                             Document docFirstLink = Jsoup.connect(firstLinkUrl).get();
@@ -132,9 +132,13 @@ public class ExploraViens2000 {
                             //TODO 4 Exploration
                             // Url avec motclé?
 
+                            //on recupère les info du 2ème link
+                            String secondLinkUrl = deuxiemeLink.attr("abs:href");
+                            Document docSecondLink = Jsoup.connect(secondLinkUrl).get();
+
                             if (MotCleDansUrl(motCle, firstLinkUrl))
                             {
-
+                                System.out.println("Titre : " + docSecondLink.title() + "          URL : " + secondLinkUrl + " Liens " + docSecondLink.select("a").size());
                                 ExplorationDeLien(deuxiemeLink.attr("abs:href"), motCle);
                                 break;
                             }
@@ -144,14 +148,13 @@ public class ExploraViens2000 {
                                 //TODO 5 Exploration
                                 if(firstLinkUrl.equals(url))
                                 {
-                                    String secondLinkUrl = deuxiemeLink.attr("abs:href");
-                                    Document docSecondLink = Jsoup.connect(secondLinkUrl).get();
+
                                     System.out.println("Titre : " + docSecondLink.title() + "          URL : " + secondLinkUrl + " Liens " + docSecondLink.select("a").size());
                                     ExplorationDeLien(deuxiemeLink.attr("abs:href"), motCle);
                                     break;
                                 }
                                 else{
-                                    System.out.println("Titre : " + docFirstLink.title() + "          URL : " + firstLinkUrl.replaceAll("#","") + " Liens " + nbrlien.size());
+                                    System.out.println("Titre : " + docFirstLink.title() + "          URL : " + firstLinkUrl + " Liens " + nbrlien.size());
                                     ExplorationDeLien(firstLinkUrl, motCle);
                                     break;
                                 }
