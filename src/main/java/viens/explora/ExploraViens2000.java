@@ -5,6 +5,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -51,12 +56,16 @@ private static ArrayList<String> LISTE;
             System.out.println("Titre : " + titre + "          URL : " + args[0] + " Liens " + nbrLiens);
             ListeUrl();
             ExplorationDeLien(args[0],args[1]);
+            for (String s : LISTE) {
+                HtmlExplorer(s);
+            }
 
 
 
         } catch (Exception e) {
             System.out.println("Erreur");
         }
+
 
 
     }
@@ -247,4 +256,34 @@ private static ArrayList<String> LISTE;
     }
     //Fin Region TODO 2
 
+    //TODO Fichier Explorer
+    //Sauvegarde des pages html explorer
+    public static void HtmlExplorer(String url)
+    {
+        try{
+            URL newUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) newUrl.openConnection();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder stringBuilder = new StringBuilder();
+            String ligne;
+
+            while ((ligne = reader.readLine()) != null) {
+                stringBuilder.append(ligne);
+                stringBuilder.append("\n");
+            }
+            reader.close();
+            connection.disconnect();
+            String ContenuDuUrl = stringBuilder.toString();
+            String path = newUrl.getPath();
+            String[] pathSegments = path.split("/");
+            String nomFichier = pathSegments[pathSegments.length - 1];
+            PrintWriter file = new PrintWriter(new FileWriter(nomFichier + ".txt"));
+            file.println(ContenuDuUrl);
+            file.close();
+        }
+        catch (Exception e)
+        {
+
+        }
+    }
 }
