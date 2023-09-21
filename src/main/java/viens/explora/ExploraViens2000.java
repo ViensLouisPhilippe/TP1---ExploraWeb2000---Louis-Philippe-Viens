@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import sun.awt.image.ImageWatched;
 
+import javax.swing.text.TabableView;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Struct;
@@ -130,8 +131,10 @@ public class ExploraViens2000 {
                             Elements nbrlien = docFirstLink.select("a");
                             //TODO 4 Exploration
                             // Url avec motclé?
+
                             if (MotCleDansUrl(motCle, firstLinkUrl))
                             {
+
                                 ExplorationDeLien(deuxiemeLink.attr("abs:href"), motCle);
                                 break;
                             }
@@ -174,11 +177,14 @@ public class ExploraViens2000 {
     }
     public static boolean MotCleDansUrl(String motCle, String Url) {
 
-        if (Url.contains(motCle))
-            return true;
+        String[] list = motCle.split(" ");
+        for (int i = 0; i < list.length; i++) {
 
-        else
-            return false;
+            if (Url.contains(list[i]))
+                return true;
+
+        }
+        return false;
     }
     
     //Fin Region TODO 2

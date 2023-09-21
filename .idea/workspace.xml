@@ -43,7 +43,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.argument exploration 4/5">
+  <component name="RunManager" selected="Application.argument exploration 6">
     <configuration name="ExploraViens2000" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="viens.explora.ExploraViens2000" />
       <module name="ExploraWeb2000" />
@@ -72,10 +72,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="argument exploration 4/5" type="Application" factoryName="Application">
+    <configuration name="argument exploration 6" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="viens.explora.ExploraViens2000" />
       <module name="ExploraWeb2000" />
-      <option name="PROGRAM_PARAMETERS" value="https://info.cegepmontpetit.ca/3N5-Prog3/z/index.html &quot;testbot&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="https://info.cegepmontpetit.ca/3N5-Prog3/z/index.html &quot;testbot page5&quot;" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="viens.explora.*" />
@@ -103,7 +103,7 @@
     <list>
       <item itemvalue="Application.test 1" />
       <item itemvalue="Application.argument exploration 3/5" />
-      <item itemvalue="Application.argument exploration 4/5" />
+      <item itemvalue="Application.argument exploration 6" />
       <item itemvalue="Application.ExploraViens2000" />
     </list>
     <recent_temporary>
@@ -120,7 +120,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1694693844330</updated>
-      <workItem from="1695229260396" duration="5132000" />
+      <workItem from="1695229260396" duration="7831000" />
     </task>
     <servers />
   </component>
@@ -136,23 +136,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/viens/explora/ExploraViens2000.java</url>
-          <line>117</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/viens/explora/ExploraViens2000.java</url>
-          <line>125</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/viens/explora/ExploraViens2000.java</url>
-          <line>129</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/viens/explora/ExploraViens2000.java</url>
-          <line>146</line>
-          <option name="timeStamp" value="11" />
+          <line>134</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
