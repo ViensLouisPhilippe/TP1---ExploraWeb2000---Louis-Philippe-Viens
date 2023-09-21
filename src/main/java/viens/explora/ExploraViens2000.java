@@ -4,15 +4,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import sun.awt.image.ImageWatched;
 
-import javax.swing.text.TabableView;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Struct;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExploraViens2000 {
-
+private static ArrayList<String> LISTE;
+    public static void ListeUrl() {
+        LISTE = new ArrayList<String>();
+    }
     public static void main(String[] args) {
         //ÉTAPE 1 TODO 1: Arguments
 
@@ -47,7 +49,7 @@ public class ExploraViens2000 {
             Elements links = doc.select("a");
             int nbrLiens = links.size();
             System.out.println("Titre : " + titre + "          URL : " + args[0] + " Liens " + nbrLiens);
-
+            ListeUrl();
             ExplorationDeLien(args[0],args[1]);
 
 
@@ -114,17 +116,21 @@ public class ExploraViens2000 {
             Document doc = Jsoup.connect(url.replaceAll("#","")).get();
             Elements links = doc.select("a");
 
+            //TODO 7 exploration
+            if (!LISTE.contains(url))
+            {
+                LISTE.add(url);
                 if (!links.isEmpty()) {
 
                     while (isURLTextValid(links.first().attr("abs:href")))
-                     {
+                    {
                         // Extraire le premier lien trouvé
                         Element firstLink = links.first();
                         //Chercher le deuxieme url
-                         Element deuxiemeLink = links.get(1);
+                        Element deuxiemeLink = links.get(1);
                         // Récupérer l'URL du premier lien
                         String firstLinkUrl = firstLink.attr("abs:href").replaceAll("#","");
-                        if (isURLTextValid(firstLinkUrl)) {
+                        if (isURLTextValid(firstLinkUrl) && isURlValid(firstLinkUrl)) {
                             // Afficher l'URL du premier lien
                             Document docFirstLink = Jsoup.connect(firstLinkUrl).get();
                             //Compter le nombre de lien dans le premier url
@@ -136,11 +142,23 @@ public class ExploraViens2000 {
                             String secondLinkUrl = deuxiemeLink.attr("abs:href");
                             Document docSecondLink = Jsoup.connect(secondLinkUrl).get();
 
+
                             if (MotCleDansUrl(motCle, firstLinkUrl))
                             {
-                                System.out.println("Titre : " + docSecondLink.title() + "          URL : " + secondLinkUrl + " Liens " + docSecondLink.select("a").size());
-                                ExplorationDeLien(deuxiemeLink.attr("abs:href"), motCle);
-                                break;
+                                if (isURLTextValid(secondLinkUrl) && isURlValid(secondLinkUrl))
+                                {
+                                    System.out.println("Titre : " + docSecondLink.title() + "          URL : " + secondLinkUrl + " Liens " + docSecondLink.select("a").size());
+                                    ExplorationDeLien(links.get(1).attr("abs:href"), motCle);
+                                    break;
+                                }
+                                else
+                                {
+                                    ExplorationDeLien(links.get(2).attr("abs:href"), motCle);
+                                    System.out.println("URL ignorée : " + secondLinkUrl);
+                                    break;
+                                }
+
+
                             }
                             else
                             {
@@ -148,10 +166,42 @@ public class ExploraViens2000 {
                                 //TODO 5 Exploration
                                 if(firstLinkUrl.equals(url))
                                 {
+                                    if (MotCleDansUrl(motCle, secondLinkUrl))
+                                    {
+                                        Element troisiemeLink = links.get(2);
+                                        //on recupère les info du 3eme link
+                                        String thirdLinkUrl = troisiemeLink.attr("abs:href");
+                                        //Document docThirdLink = Jsoup.connect(secondLinkUrl).get();
+                                        if (isURLTextValid(thirdLinkUrl) && isURlValid(thirdLinkUrl))
+                                        {
+                                            //System.out.println("Titre : " + docThirdLink.title() + "          URL : " + thirdLinkUrl + " Liens " + docThirdLink.select("a").size());
+                                            ExplorationDeLien(links.get(2).attr("abs:href"), motCle);
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            System.out.println("URL ignorée : " + thirdLinkUrl);
+                                            ExplorationDeLien(links.get(3).attr("abs:href"), motCle);
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (isURLTextValid(secondLinkUrl) && isURlValid(secondLinkUrl))
+                                        {
+                                            System.out.println("Titre : " + docSecondLink.title() + "          URL : " + secondLinkUrl + " Liens " + docSecondLink.select("a").size());
+                                            ExplorationDeLien(deuxiemeLink.attr("abs:href"), motCle);
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            ExplorationDeLien(links.get(2).attr("abs:href"), motCle);
+                                            System.out.println("URL ignorée : " + secondLinkUrl);
+                                            break;
+                                        }
 
-                                    System.out.println("Titre : " + docSecondLink.title() + "          URL : " + secondLinkUrl + " Liens " + docSecondLink.select("a").size());
-                                    ExplorationDeLien(deuxiemeLink.attr("abs:href"), motCle);
-                                    break;
+                                    }
+
                                 }
                                 else{
                                     System.out.println("Titre : " + docFirstLink.title() + "          URL : " + firstLinkUrl + " Liens " + nbrlien.size());
@@ -171,6 +221,12 @@ public class ExploraViens2000 {
                     System.out.println("L'exploration s'est arrêtée, la page " + url + " ne contient aucun lien valide.");
 
                 }
+            }
+
+            else{
+                System.out.println("L'exploration s'est arrêtée car nous avons rencontré une URL déjà explorée " + url);
+            }
+
 
 
         } catch (Exception e) {
@@ -189,6 +245,6 @@ public class ExploraViens2000 {
         }
         return false;
     }
-    
     //Fin Region TODO 2
+
 }
