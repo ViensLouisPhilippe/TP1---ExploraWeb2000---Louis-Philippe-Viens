@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>La page 5</title>
+  </head>
+  <body>
+    Ici il n'y a pas de lien louisphilippe.viens@pipo.org.
+    <p>Je suis un courriel valide, je te jure ayoye@malade</p>
+    <p>Je suis un courriel invalide : louisphilippe.viens@pipo.org ou pas.</p>
+  </body>
+</html>

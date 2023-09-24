@@ -10,6 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +20,11 @@ private static ArrayList<String> LISTE;
     public static void ListeUrl() {
         LISTE = new ArrayList<String>();
     }
+private static ArrayList<String> LISTEEMAIL;
+    public static void ListeEmail() {
+        LISTEEMAIL = new ArrayList<String>();
+    }
+
     public static void main(String[] args) {
         //ÉTAPE 1 TODO 1: Arguments
 
@@ -53,11 +60,12 @@ private static ArrayList<String> LISTE;
             int nbrLiens = links.size();
             System.out.println("Titre : " + titre + "          URL : " + args[0] + " Liens " + nbrLiens);
             ListeUrl();
+            ListeEmail();
             ExplorationDeLien(args[0],args[1]);
-            for (String s : LISTE) {
-                HtmlExplorer(s);
+            for (String urls : LISTE) {
+                HtmlExplorer(urls);
             }
-
+            CollecteCourriel(LISTEEMAIL);
 
 
         } catch (Exception e) {
@@ -258,22 +266,30 @@ private static ArrayList<String> LISTE;
     //Sauvegarde des pages html explorer
     public static void HtmlExplorer(String url)
     {
+
         try{
             URL newUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) newUrl.openConnection();
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder stringBuilder = new StringBuilder();
             String ligne;
+
             while ((ligne = reader.readLine()) != null) {
                 stringBuilder.append(ligne);
                 stringBuilder.append("\n");
             }
+            //TODO email Recuperer les emails dans le stringbuilder puis les remplacers par louisphilippe.viens@pipo.org
             String adresseDeRemplacement = "louisphilippe.viens@pipo.org";
             String emailPattern = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}";
             Pattern pattern = Pattern.compile(emailPattern);
             Matcher matcher = pattern.matcher(stringBuilder.toString());
+            while (matcher.find()) {
+                String email = matcher.group().toLowerCase();
+                if (!LISTEEMAIL.contains(email))
+                    LISTEEMAIL.add(email);
+            }
             String modifiedContent = matcher.replaceAll(adresseDeRemplacement);
-
+            //fin TODO email
             reader.close();
             connection.disconnect();
             String path = newUrl.getPath();
@@ -287,5 +303,26 @@ private static ArrayList<String> LISTE;
         {
             System.out.println("erreur");
         }
+    }
+    public static void CollecteCourriel(List<String> listEmail)
+    {
+        Collections.sort(listEmail);
+        String repertoire = System.getProperty("user.dir") + "/src/resultat";
+        File resultat = new File(repertoire);
+        if (!resultat.exists())
+        {
+            resultat.mkdirs();
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultat + "/courriel.txt"))) {
+            for (String email : listEmail) {
+                System.out.println(email);
+                writer.write(email + "\n");
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Erreur dans la procedure de collecte de courriel");
+        }
+
     }
 }
