@@ -5,15 +5,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExploraViens2000 {
 private static ArrayList<String> LISTE;
@@ -266,24 +264,28 @@ private static ArrayList<String> LISTE;
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder stringBuilder = new StringBuilder();
             String ligne;
-
             while ((ligne = reader.readLine()) != null) {
                 stringBuilder.append(ligne);
                 stringBuilder.append("\n");
             }
+            String adresseDeRemplacement = "louisphilippe.viens@pipo.org";
+            String emailPattern = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}";
+            Pattern pattern = Pattern.compile(emailPattern);
+            Matcher matcher = pattern.matcher(stringBuilder.toString());
+            String modifiedContent = matcher.replaceAll(adresseDeRemplacement);
+
             reader.close();
             connection.disconnect();
-            String ContenuDuUrl = stringBuilder.toString();
             String path = newUrl.getPath();
             String[] pathSegments = path.split("/");
             String nomFichier = pathSegments[pathSegments.length - 1];
-            PrintWriter file = new PrintWriter(new FileWriter(nomFichier + ".txt"));
-            file.println(ContenuDuUrl);
-            file.close();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomFichier+".txt"))) {
+                writer.write(modifiedContent);
+            }
         }
         catch (Exception e)
         {
-
+            System.out.println("erreur");
         }
     }
 }
