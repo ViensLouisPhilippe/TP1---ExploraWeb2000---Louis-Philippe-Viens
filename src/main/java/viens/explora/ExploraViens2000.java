@@ -271,6 +271,12 @@ private static ArrayList<String> LISTEEMAIL;
     {
 
         try{
+            String repertoire = System.getProperty("user.dir") + "/siteWeb";
+            File siteWeb = new File(repertoire);
+            if (!siteWeb.exists())
+            {
+                siteWeb.mkdirs();
+            }
             URL newUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) newUrl.openConnection();
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -298,7 +304,7 @@ private static ArrayList<String> LISTEEMAIL;
             String path = newUrl.getPath();
             String[] pathSegments = path.split("/");
             String nomFichier = pathSegments[pathSegments.length - 1];
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomFichier+".txt"))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(siteWeb + "/" + nomFichier))) {
                 writer.write(modifiedContent);
             }
         }

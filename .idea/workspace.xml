@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09ad0a2b-b0a1-4dd8-97b4-d07ed43d3ef7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.html.txt" beforeDir="false" afterPath="$PROJECT_DIR$/1.html.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/3.html.txt" beforeDir="false" afterPath="$PROJECT_DIR$/3.html.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html.txt" beforeDir="false" afterPath="$PROJECT_DIR$/index.html.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/page5.html.txt" beforeDir="false" afterPath="$PROJECT_DIR$/page5.html.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1.html.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/3.html.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/page5.html.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/viens/explora/ExploraViens2000.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/viens/explora/ExploraViens2000.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resultat/courriel.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/resultat/courriel.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
