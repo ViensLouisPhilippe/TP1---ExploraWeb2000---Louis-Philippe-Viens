@@ -36,41 +36,44 @@ private static ArrayList<String> LISTEEMAIL;
                     "\n");
         }
         //Argument 2/4 on test si l'URL est bien formée
-        if (!isURLTextValid(args[0]))
+        else if (!isURLTextValid(args[0]))
             System.out.println("Nous avons rencontré un problème avec l'URL fournie : " + args[0] + "\nMerci de fournir une URL bien formée");
 
         //Argument 3/4 on confirme si l'URL est valid
-        if (!isURlValid(args[0]))
+        else if (!isURlValid(args[0]))
             System.out.println("Il n'y a pas de page correspondante à l'URL : " + args[0] + "\nMerci de fournir une URL correspondant à une page");
 
         //Argument 4/4 On valide que la liste de mots clés ne contient pas de répétitions.
-        if (!isListValid(args[1])) {
+        else if (!isListValid(args[1])) {
             System.out.println("Mots clés fournis incorrects " + args[1]);
             System.out.println("Merci de ne pas avoir de répétitions dans les mots clés : ");
         }
 
         //ÉTAPE 2 TODO "Exploration"
-        System.out.println("Les arguments sont corrects, nous commençons l'exploration de " + args[0]);
-        //Exploration 1 : afficher le titre et l'url complet
-        try {
-            String url = args[0];
-            Document doc = Jsoup.connect(url).get();
-            String titre = doc.title();
-            Elements links = doc.select("a");
-            int nbrLiens = links.size();
-            System.out.println("Titre : " + titre + "          URL : " + args[0] + " Liens " + nbrLiens);
-            ListeUrl();
-            ListeEmail();
-            ExplorationDeLien(args[0],args[1]);
-            for (String urls : LISTE) {
-                HtmlExplorer(urls);
+        else {
+            System.out.println("Les arguments sont corrects, nous commençons l'exploration de " + args[0]);
+            //Exploration 1 : afficher le titre et l'url complet
+            try {
+                String url = args[0];
+                Document doc = Jsoup.connect(url).get();
+                String titre = doc.title();
+                Elements links = doc.select("a");
+                int nbrLiens = links.size();
+                System.out.println("Titre : " + titre + "          URL : " + args[0] + " Liens " + nbrLiens);
+                ListeUrl();
+                ListeEmail();
+                ExplorationDeLien(args[0],args[1]);
+                for (String urls : LISTE) {
+                    HtmlExplorer(urls);
+                }
+                CollecteCourriel(LISTEEMAIL);
+
+
+            } catch (Exception e) {
+                System.out.println("Erreur");
             }
-            CollecteCourriel(LISTEEMAIL);
-
-
-        } catch (Exception e) {
-            System.out.println("Erreur");
         }
+
 
 
 
